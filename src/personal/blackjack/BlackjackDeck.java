@@ -18,14 +18,14 @@ import personal.blackjack.Deck.Card;
 public class BlackjackDeck extends Deck {
 	private static final int DEFAULT_NUMBER_OF_STANDARD_DECKS = 6;
 	private static Map<Integer, Integer> valuesMap = new HashMap<Integer, Integer>(13);
-	
-	public BlackjackDeck () {
-		// Initialize valuesMap
+	static {
 		for (int i = 1; i < 14; i++) {
 			if(i < 11)	valuesMap.put(i, i);
 			else		valuesMap.put(i, 10);
 		}
-		
+	}
+	
+	public BlackjackDeck () {
 		// Initialize Cards
 		for (int d = 0; d < DEFAULT_NUMBER_OF_STANDARD_DECKS; d++) {
 			for (int printVal = 1; printVal < 14; printVal++) {
@@ -39,11 +39,6 @@ public class BlackjackDeck extends Deck {
 	}
 
 	public BlackjackDeck (int numberOfDecks) {
-		// Initialize valuesMap
-		for (int i = 1; i < 14; i++) {
-			if(i < 11)	valuesMap.put(i, i);
-			else		valuesMap.put(i, 10);
-		}
 		// Initialize Cards
 		for (int d = 0; d < numberOfDecks; d++) {
 			for (int f = 1; f < 14; f++) {
@@ -57,11 +52,11 @@ public class BlackjackDeck extends Deck {
 	
 	@Override
 	public void shuffle() {	
-		Integer[] array = new Integer[cardsList.size()];
-		array = (Integer[]) cardsList.toArray();		
-		Random r = new Random();
-		int first = r.nextInt();
-		
+		int i = 0;
+		while (i < 7) {
+			GSRShuffle();
+			i++;
+		}
 	}
 	
 	/**
@@ -104,7 +99,7 @@ public class BlackjackDeck extends Deck {
 		cardsList = new ArrayList<Integer>(Arrays.asList(array));
 	}
 	
-	public void riffleShuffle() {
+	public void overhandShuffle() {
 		
 	}
 	
@@ -133,10 +128,6 @@ public class BlackjackDeck extends Deck {
 	
 	public static void main (String[] args) {
 		BlackjackDeck deck = new BlackjackDeck(1);
-		for (int i = 0; i < 7; i++) {
-			deck.GSRShuffle();
-			System.out.println(deck.toString());
-		}
-
+		deck.shuffle();
 	}
 }

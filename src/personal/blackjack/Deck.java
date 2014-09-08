@@ -18,10 +18,10 @@ public abstract class Deck {
 	
 	/** Inner class to represent a single card */
 	protected class Card {
-		int identity; //Unique id
-		int value; // Actual value, specific to the game
-		int printValue; // Printed value, 1-13
-		int suit; // Heart, spade, clover, diamond <=> 1,2,3,4
+		final int identity; //Unique id
+		final int value; // Actual value, specific to the game
+		final int printValue; // Printed value, 1-13
+		final int suit; // Heart, spade, clover, diamond <=> 1,2,3,4
 		boolean used;
 		
 		Card (int printValue, int suit, int actualValue) {
@@ -34,10 +34,7 @@ public abstract class Deck {
 			cardsList.add(this.identity);
 			this.used = false;
 		}
-		
-		void setValue (int value) {
-			this.value = value;
-		}
+
 		void setUsed () {
 			this.used = true;
 		}
