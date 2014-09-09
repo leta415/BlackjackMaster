@@ -2,7 +2,9 @@ package personal.blackjack;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Stack;
@@ -25,6 +27,7 @@ public class BlackjackDeck extends Deck {
 		}
 	}
 	
+	/* CONSTRUCTORS */
 	public BlackjackDeck () {
 		// Initialize Cards
 		for (int d = 0; d < DEFAULT_NUMBER_OF_STANDARD_DECKS; d++) {
@@ -37,7 +40,6 @@ public class BlackjackDeck extends Deck {
 		
 		deckSize = (int) DEFAULT_NUMBER_OF_STANDARD_DECKS*52;
 	}
-
 	public BlackjackDeck (int numberOfDecks) {
 		// Initialize Cards
 		for (int d = 0; d < numberOfDecks; d++) {
@@ -99,10 +101,36 @@ public class BlackjackDeck extends Deck {
 		cardsList = new ArrayList<Integer>(Arrays.asList(array));
 	}
 	
-	public void overhandShuffle() {
+	/**
+	 * Simulate my overhand shuffle - recursively cutting the stack and placing the bottom part on top. 
+	 * Recommended for single deck only to best simulate human shuffling technique.
+	 */
+	public void myOverhandShuffle() {
+		Random r = new Random();
+		int cutFromTop = r.nextInt(5) + 7;	//my special formula = number of cards to cut off from top
+		this.cardsList = recursiveCuts (cutFromTop, new ArrayList<Integer>(), cardsList);
+	}
+	public List<Integer> recursiveCuts (int cutFromTop, List<Integer> updatedList, List<Integer> leftoverList) {
+		if (leftoverList.size() < cutFromTop) {
+			Collections.reverse(leftoverList);
+			updatedList.addAll(leftoverList);
+			return updatedList;
+		}
+		System.out.println("recursive call");
+		List<Integer> top = leftoverList.subList(0, cutFromTop);
+		List<Integer> bottom = leftoverList.subList(cutFromTop, leftoverList.size());
+		Collections.reverse(top);
+		updatedList.addAll(top);
 		
+		if (cutFromTop > 1 && leftoverList.size() < 15) {
+			cutFromTop--;
+		}
+		return recursiveCuts (cutFromTop, updatedList, bottom);
 	}
 	
+	/**
+	 * Simulate Mongean shuffle - take top card and put it in new stack, then bottom card. Alternate.
+	 */
 	public void mongeanShuffle() {
 		Integer[] array = new Integer[cardsList.size()];
 		array = (Integer[]) cardsList.toArray(array);
@@ -128,6 +156,8 @@ public class BlackjackDeck extends Deck {
 	
 	public static void main (String[] args) {
 		BlackjackDeck deck = new BlackjackDeck(1);
-		deck.shuffle();
+		System.out.println("Before shuffling: " + deck.toString());
+		deck.myOverhandShuffle();
+		System.out.println("After shuffling: " + deck.toString());
 	}
 }

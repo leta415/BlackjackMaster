@@ -2,6 +2,7 @@ package personal.blackjack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -12,7 +13,7 @@ import java.util.Map;
  */
 public abstract class Deck {
 	protected Map<Integer,Card> cardsMap = new HashMap<Integer,Card>();
-	protected ArrayList<Integer> cardsList = new ArrayList<Integer>();
+	protected List<Integer> cardsList = new ArrayList<Integer>();
 	protected int identityCounter = 1;
 	protected int deckSize;
 	
